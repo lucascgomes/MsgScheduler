@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
@@ -46,9 +48,14 @@ public class MainActivity extends Activity {
 	}
 	
 	public void scheduleSMS(View view){
-		DialogFragment dialog = TimePickerFragment.newInstance(1, 10);
+		TextView smsClock = (TextView) view;
+		String smsClockStr = smsClock.getText().toString();  
+		int hour = Integer.parseInt(smsClockStr.substring(0, 2));
+		int minute = Integer.parseInt(smsClockStr.substring(3, 5));
+		Log.d("CLOCK", hour +"  "+ minute);
+		
+		DialogFragment dialog = TimePickerFragment.newInstance(hour, minute);
         dialog.show(this.getFragmentManager(), "NoticeDialogFragment");
-		Log.d("CLOCK", "CABUM!");
 	}
 	
 }

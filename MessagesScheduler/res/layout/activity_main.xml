@@ -8,23 +8,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.messagesscheduler.MainActivity" >
 
-    <EditText
-        android:id="@+id/editText1"
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
-        android:ems="10" />
+        android:text="SMS scheduled to:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/button1"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp"
-        android:text="Send" 
-        android:onClick="sendMessage"/>
+        android:text="14:00 PM"
+        android:clickable="true"
+        android:onClick="scheduleSMS"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/clock_dimension" />
 
 </RelativeLayout>

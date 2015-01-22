@@ -1,37 +1,29 @@
 package com.example.messagesscheduler;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.DialogFragment;
 import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 public class MainActivity extends Activity {
 	
-	
 	private AlarmManager alarmMgr;
 	private PendingIntent alarmIntent;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		Intent intent = new Intent(this, AlarmReceiver.class);
-		alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-		alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 1000, alarmIntent);
+				
+//		alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//		Intent intent = new Intent(this, AlarmReceiver.class);
+//		alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+//		alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 1000, alarmIntent);
 	}
 
 	@Override
@@ -53,10 +45,10 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	
-	// Sends a message after pressing the 'Send button'
-	public void sendMessage(View view){
-		EditText myMessage = (EditText)findViewById(R.id.editText1);
-		Log.d("MESSAGE", myMessage.getText().toString());	
+	public void scheduleSMS(View view){
+		DialogFragment dialog = TimePickerFragment.newInstance(1, 10);
+        dialog.show(this.getFragmentManager(), "NoticeDialogFragment");
+		Log.d("CLOCK", "CABUM!");
 	}
+	
 }

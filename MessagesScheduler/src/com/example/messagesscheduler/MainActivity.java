@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DialogFragment;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,8 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 	
 	private AlarmManager alarmMgr;
 	private PendingIntent alarmIntent;
@@ -21,11 +23,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-				
-//		alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//		Intent intent = new Intent(this, AlarmReceiver.class);
-//		alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-//		alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 1000, alarmIntent);
 	}
 
 	@Override
@@ -54,8 +51,8 @@ public class MainActivity extends Activity {
 		int minute = Integer.parseInt(smsClockStr.substring(3, 5));
 		Log.d("CLOCK", hour +"  "+ minute);
 		
-		DialogFragment dialog = TimePickerFragment.newInstance(hour, minute);
-        dialog.show(this.getFragmentManager(), "NoticeDialogFragment");
+		TimePickerFragment dialog = TimePickerFragment.newInstance(hour, minute);
+        dialog.show(this.getFragmentManager(), "TimePickerFragment");
 	}
 	
 }

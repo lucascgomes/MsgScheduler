@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:text="19:53 PM"
+        android:text="19:53"
         android:clickable="true"
         android:onClick="scheduleSMS"
         android:textAppearance="?android:attr/textAppearanceLarge"

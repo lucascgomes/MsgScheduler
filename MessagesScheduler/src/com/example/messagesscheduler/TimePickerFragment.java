@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -31,11 +32,25 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 		int minute = getArguments().getInt("minute");
 
 		// Create a new instance of TimePickerDialog and return it
-		return new TimePickerDialog(getActivity(), this, hour, minute,
-				DateFormat.is24HourFormat(getActivity()));
+		return new TimePickerDialog(getActivity(), this, hour, minute, true);
+		//DateFormat.is24HourFormat(getActivity())
 	}
 
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		// Do something with the time chosen by the user
+		TextView scheduledTime = (TextView) getActivity().findViewById(R.id.textView2);
+		String hourStr = "" + hourOfDay;
+		String minuteStr = "" + minute;
+		if (hourOfDay <10){
+			hourStr = "0" + hourStr;
+		}
+		if (minute <10){
+			minuteStr = "0" + minuteStr;
+		}
+		scheduledTime.setText(hourStr + ":" + minuteStr);
+		
+//		alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//		Intent intent = new Intent(this, AlarmReceiver.class);
+//		alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+//		alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 1000, alarmIntent);
 	}
 }

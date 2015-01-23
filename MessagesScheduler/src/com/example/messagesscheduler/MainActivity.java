@@ -1,18 +1,16 @@
 package com.example.messagesscheduler;
 
+import java.util.Scanner;
+
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.DialogFragment;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 public class MainActivity extends Activity{
 	
@@ -23,6 +21,20 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		// Read lines
+		int line = 0;
+		Scanner s = new Scanner(getResources().openRawResource(R.raw.messages));
+		try {
+			for (int i=0; i<line; i++){
+				s.nextLine();
+			}
+		    String word = s.nextLine();
+	        Log.d("MESSAGE-->", word);
+		} finally {
+		    s.close();
+		}
+		// end of reading lines
 	}
 
 	@Override

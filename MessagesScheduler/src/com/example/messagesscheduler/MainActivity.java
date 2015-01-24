@@ -24,20 +24,6 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		// Read lines
-		int line = 0;
-		Scanner s = new Scanner(getResources().openRawResource(R.raw.messages));
-		try {
-			for (int i=0; i<line; i++){
-				s.nextLine();
-			}
-		    String word = s.nextLine();
-	        Log.d("MESSAGE-->", word);
-		} finally {
-		    s.close();
-		}
-		// end of reading lines
 	}
 
 	@Override

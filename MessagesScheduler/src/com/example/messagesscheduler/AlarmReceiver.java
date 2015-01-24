@@ -1,13 +1,15 @@
 package com.example.messagesscheduler;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
 	
@@ -15,14 +17,37 @@ public class AlarmReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		String message = "ALARM worked!";
-		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+		// Read line from the text file
+		int file_line;
+		String message;
+		String love_letter_emoticon = "\uD83D\uDC8C";
+		String phone_number = "+5512991565706";
+		
+		SharedPreferences file_prefs = context.getSharedPreferences("FILE_PREFS", Context.MODE_PRIVATE);
+		file_line = file_prefs.getInt("file_line", 0);
+		
+		Scanner s = new Scanner(context.getResources().openRawResource(R.raw.messages));
+		try {
+			for (int i=0; i<file_line; i++){
+				s.nextLine();
+			}
+		    message = s.nextLine();
+	        Log.d("MESSAGE-->", message);
+		} finally {
+		    s.close();
+		}
+		
+		file_line++;
+		SharedPreferences.Editor editor = file_prefs.edit();
+		editor.putInt("file_line", file_line);
+		editor.commit();
+		
+		EditText myMessage = new EditText(context);
+		myMessage.getText().append(love_letter_emoticon + " " + message );
 		
 		smsManager = SmsManager.getDefault();
-		EditText myMessage = new EditText(context);
-		myMessage.getText().append("Teste alarm \uD83D\uDC8C");
 		ArrayList<String> messageParts = smsManager.divideMessage(myMessage.getText().toString());
-		smsManager.sendMultipartTextMessage("+5512991565706", null, messageParts, null, null);
+		smsManager.sendMultipartTextMessage(phone_number, null, messageParts, null, null);
 	}
 
 	// public void setAlarm(Context context){

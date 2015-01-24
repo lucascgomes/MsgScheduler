@@ -1,17 +1,24 @@
 package com.example.messagesscheduler;
 
-import java.util.Calendar;
-
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+	// hold the listener
+	public interface Listener {
+	    public void setTime(int hourOfDay, int minute);
+	}
+	
+	private Listener myListener;
+	
+	// used by Activity to set itself as the listener for the fragment
+	public void setListener(Listener listener) {
+	    myListener = listener;
+	}
 	
 	static TimePickerFragment newInstance(int hour, int minute) {
 		TimePickerFragment timePicker = new TimePickerFragment();
@@ -37,20 +44,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 	}
 
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		TextView scheduledTime = (TextView) getActivity().findViewById(R.id.textView2);
-		String hourStr = "" + hourOfDay;
-		String minuteStr = "" + minute;
-		if (hourOfDay <10){
-			hourStr = "0" + hourStr;
-		}
-		if (minute <10){
-			minuteStr = "0" + minuteStr;
-		}
-		scheduledTime.setText(hourStr + ":" + minuteStr);
-		
-//		alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//		Intent intent = new Intent(this, AlarmReceiver.class);
-//		alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-//		alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 1000, alarmIntent);
+		if (myListener != null) 
+			myListener.setTime(hourOfDay, minute);
 	}
 }

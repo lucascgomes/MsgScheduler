@@ -1,10 +1,13 @@
 package com.example.messagesscheduler;
 
+import java.util.Calendar;
 import java.util.Scanner;
 
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity implements TimePickerFragment.Listener{
 	
 	private AlarmManager alarmMgr;
 	private PendingIntent alarmIntent;
@@ -63,8 +66,33 @@ public class MainActivity extends Activity{
 		int minute = Integer.parseInt(smsClockStr.substring(3, 5));
 		Log.d("CLOCK", hour +"  "+ minute);
 		
-		TimePickerFragment dialog = TimePickerFragment.newInstance(hour, minute);
-        dialog.show(this.getFragmentManager(), "TimePickerFragment");
+		TimePickerFragment timePickerDialog = TimePickerFragment.newInstance(hour, minute);
+		timePickerDialog.show(this.getFragmentManager(), "TimePickerFragment");
+		timePickerDialog.setListener(this);
+	}
+	
+	//Callback is being called twice?
+	public void setTime(int hourOfDay, int minute) {
+		TextView scheduledTime = (TextView) findViewById(R.id.textView2);
+		String hourStr = "" + hourOfDay;
+		String minuteStr = "" + minute;
+		if (hourOfDay <10){
+			hourStr = "0" + hourStr;
+		}
+		if (minute <10){
+			minuteStr = "0" + minuteStr;
+		}
+		scheduledTime.setText(hourStr + ":" + minuteStr);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+		calendar.set(Calendar.MINUTE, minute);
+		
+		alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(this, AlarmReceiver.class);
+		alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+		alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
 	}
 	
 }

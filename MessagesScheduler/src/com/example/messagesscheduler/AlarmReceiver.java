@@ -21,7 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		int file_line;
 		String message;
 		String love_letter_emoticon = "\uD83D\uDC8C";
-		String phone_number = "+5512991565706";
+		String phone_number = "+55 35 9254-6711";
 		
 		SharedPreferences file_prefs = context.getSharedPreferences("FILE_PREFS", Context.MODE_PRIVATE);
 		file_line = file_prefs.getInt("file_line", 0);

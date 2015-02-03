@@ -31,9 +31,9 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 		int scheduled_minute = clock_settings.getInt("minute", -1);
 		
 		if (scheduled_hour == -1){
-			setTextClockTime(14, 00);
+			setTextClockTime(20, 00);
 			SharedPreferences.Editor editor = clock_settings.edit();
-			editor.putInt("hour", 14);
+			editor.putInt("hour", 20);
 			editor.putInt("minute", 00);
 			editor.commit();
 			Toast.makeText(getApplicationContext(), "Welcome for the first time!", Toast.LENGTH_LONG).show();

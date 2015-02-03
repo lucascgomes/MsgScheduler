@@ -1,6 +1,8 @@
 package com.example.messagesscheduler;
 
+import java.nio.charset.Charset;
 import java.util.Calendar;
+import java.util.Scanner;
 
 import android.app.Activity;
 import android.app.AlarmManager;

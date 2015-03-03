@@ -50,20 +50,4 @@ public class AlarmReceiver extends BroadcastReceiver {
 		smsManager.sendMultipartTextMessage(phone_number, null, messageParts, null, null);
 	}
 
-	// public void setAlarm(Context context){
-	// Log.d("Carbon","Alrm SET !!");
-	//
-	// // get a Calendar object with current time
-	// Calendar cal = Calendar.getInstance();
-	// // add 30 seconds to the calendar object
-	// cal.add(Calendar.SECOND, 30);
-	// Intent intent = new Intent(context, AlarmReceiver.class);
-	// PendingIntent sender = PendingIntent.getBroadcast(context, 192837,
-	// intent, PendingIntent.FLAG_UPDATE_CURRENT);
-	//
-	// // Get the AlarmManager service
-	// AlarmManager am = (AlarmManager)
-	// context.getSystemService(context.ALARM_SERVICE);
-	// am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
-	// }
 }

@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <receiver  android:process=":remote" android:name="AlarmReceiver"></receiver>
+        <receiver android:process=":remote" android:name="SmsSentReceiver"></receiver>
     </application>
 
 </manifest>

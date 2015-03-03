@@ -44,6 +44,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 //		editor.commit();
 		
 		/************************* TEST **********************************/
+		file_line = 20;
+		file_line++;
 		message = "teste";
 		/*****************************************************************/
 
@@ -54,7 +56,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 		smsManager = SmsManager.getDefault();
 		ArrayList<String> messageParts = smsManager.divideMessage(myMessage.getText().toString());
 		ArrayList<PendingIntent> sentPendingIntents = new ArrayList<PendingIntent>();
-		PendingIntent sentPI = PendingIntent.getBroadcast(context, 0, new Intent(context, SmsSentReceiver.class), 0);
+		
+		Intent sentIntent = new Intent(context, SmsSentReceiver.class);
+		sentIntent.putExtra("MESSAGE_NUMBER", (int)file_line-1);
+		PendingIntent sentPI = PendingIntent.getBroadcast(context, 1, sentIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		for (int i = 0; i < messageParts.size(); i++) {
 			sentPendingIntents.add(i, sentPI);
 		}

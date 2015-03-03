@@ -8,7 +8,7 @@ import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.os.Bundle;
 
 public class SmsSentReceiver extends BroadcastReceiver {
 	@Override
@@ -16,8 +16,10 @@ public class SmsSentReceiver extends BroadcastReceiver {
 		String contentTitle;
 		String contentText;
 		
+		int msg_number = intent.getIntExtra("MESSAGE_NUMBER", 1234);
+		
 		if (getResultCode() == Activity.RESULT_OK){
-			contentTitle = "Message sent";
+			contentTitle = "Message #" + msg_number + " sent";
 			contentText = "Click to see the message";
 		}
 		else{
@@ -44,7 +46,7 @@ public class SmsSentReceiver extends BroadcastReceiver {
 		stackBuilder.addNextIntent(resultIntent);
 		PendingIntent resultPendingIntent =
 		        stackBuilder.getPendingIntent(
-		            0,
+		            2,
 		            PendingIntent.FLAG_UPDATE_CURRENT
 		        );
 		mBuilder.setContentIntent(resultPendingIntent);

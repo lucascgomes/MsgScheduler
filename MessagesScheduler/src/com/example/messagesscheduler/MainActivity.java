@@ -1,8 +1,7 @@
 /*
  * TODO:
+ * Make user interface to see the messages
  * Fix bug when alarm is set for a previous hour
- * Store index of message when message is not sent
- * Make a log
  * Make an test option in app?
  */
 

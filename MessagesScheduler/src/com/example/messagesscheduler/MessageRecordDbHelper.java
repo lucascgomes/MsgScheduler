@@ -106,4 +106,42 @@ public class MessageRecordDbHelper extends SQLiteOpenHelper {
         return messageRecords;
     }
     
+    //*************** UPDATE *****************
+    public int updateMessageStatus(int messageNumber, boolean was_sent){
+    	// 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put(MessageEntry.COLUMN_NAME_WAS_SENT, was_sent? 1:0);
+        
+        // 3. updating row
+        int count = db.update(MessageEntry.TABLE_NAME, //table
+                values, // column/value
+                MessageEntry.COLUMN_NAME_MESSAGE_NUMBER+" = ?", // selections
+                new String[] { String.valueOf(messageNumber) }); //selection args
+        
+        // 4. close
+        db.close();
+   
+        return count;
+    }
+    
+    //*************** DELETE *****************
+    public void deleteMessageRecord(MessageRecord messageRecord){
+    	// 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        
+        // 2. delete
+        db.delete(MessageEntry.TABLE_NAME, //table name
+                MessageEntry.COLUMN_NAME_MESSAGE_NUMBER+" = ?",  // selections
+                new String[] { String.valueOf(messageRecord.getMessage_number()) }); //selections args
+ 
+        //log
+        Log.d("deleteBook", messageRecord.toString());
+        
+        // 3. close
+        db.close();
+    }
+    
 }

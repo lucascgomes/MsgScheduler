@@ -8,7 +8,6 @@ import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 public class SmsSentReceiver extends BroadcastReceiver {
 	@Override
@@ -21,12 +20,16 @@ public class SmsSentReceiver extends BroadcastReceiver {
 		if (getResultCode() == Activity.RESULT_OK){
 			contentTitle = "Message #" + msg_number + " sent";
 			contentText = "Click to see the message";
+			//update db
+			MessageRecordDbHelper db = new MessageRecordDbHelper(context);
+			db.updateMessageStatus(msg_number, true);
 		}
 		else{
 			contentTitle = "Message not sent";
 			contentText = "Try again later";
 		}
 		
+		/* BUILD THE NOTIFICATION*/
 		Notification.Builder mBuilder =
 		        new Notification.Builder(context)
 		        .setSmallIcon(R.drawable.ic_love_letter)

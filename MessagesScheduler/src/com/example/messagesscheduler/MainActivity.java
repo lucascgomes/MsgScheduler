@@ -2,25 +2,28 @@
  * TODO:
  * Make user interface to see the messages
  * Fix bug when alarm is set for a previous hour
+ * Make a method to resend the messages
  * Make an test option in app?
  */
 
 package com.example.messagesscheduler;
 
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,46 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		initClock();
+		drawMessages();
+	}
+	
+	private void drawMessages(){
+		// gets all sent messages from db
+		MessageRecordDbHelper db = new MessageRecordDbHelper(this);
+		List<MessageRecord> messagesSent = db.getAllMessagesSentWith(1);
+		 
+		LinearLayout messageLinearLayout = (LinearLayout) findViewById(R.id.mylinearLayout);
+		TextView msgTextView; 
+		TextView dateTextView;
+		FrameLayout msgFrame;
+		
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+			     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		layoutParams.setMargins(0, 10, 0, 0);
+		
+		for (MessageRecord message: messagesSent){
+			msgFrame = new FrameLayout(this);
+			msgTextView = new TextView(this);
+			dateTextView = new TextView(this);
+			
+			msgTextView.setText("#" + message.getMessage_number() + ":" + " " + message.getMessage() + "\n");
+			msgTextView.setTextAppearance(this, android.R.style.TextAppearance_Large);
+			
+			dateTextView.setText(message.getDatetime());
+			dateTextView.setTextAppearance(this, android.R.style.TextAppearance_Small);
+			dateTextView.setGravity(Gravity.BOTTOM | Gravity.END);
+			
+			msgFrame.addView(msgTextView);
+			msgFrame.addView(dateTextView);
+			msgFrame.setBackgroundColor(Color.argb(100,255, 255, 255)); //white backgroud color
+			msgFrame.setPadding(4, 4, 4, 4);
+			messageLinearLayout.addView(msgFrame,layoutParams);
+		}
+	}
+	
+	private void initClock(){
 		SharedPreferences clock_settings = getSharedPreferences("CLOCK_SETTINGS", Context.MODE_PRIVATE);
 		int scheduled_hour = clock_settings.getInt("hour", -1);
 		int scheduled_minute = clock_settings.getInt("minute", -1);
@@ -50,8 +93,6 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 			setTextClockTime(scheduled_hour, scheduled_minute);
 		}
 	}
-
-//	DELETED: public boolean onCreateOptionsMenu(Menu menu) and public boolean onOptionsItemSelected(MenuItem item)
 	
 	public void scheduleSMS(View view){
 		TextView smsClock = (TextView) view;

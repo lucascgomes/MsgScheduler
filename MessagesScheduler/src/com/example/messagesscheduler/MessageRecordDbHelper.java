@@ -28,7 +28,7 @@ public class MessageRecordDbHelper extends SQLiteOpenHelper {
             		MessageEntry.COLUMN_NAME_MESSAGE + TEXT_TYPE + COMMA_SEP +
             		MessageEntry.COLUMN_NAME_MESSAGE_NUMBER + INTEGER_TYPE + COMMA_SEP +
             		MessageEntry.COLUMN_NAME_DATETIME + TEXT_TYPE + COMMA_SEP +
-            		MessageEntry.COLUMN_NAME_WAS_SENT + INTEGER_TYPE + COMMA_SEP +
+            		MessageEntry.COLUMN_NAME_WAS_SENT + INTEGER_TYPE +
             " )";
         
     private static final String SQL_DELETE_ENTRIES =

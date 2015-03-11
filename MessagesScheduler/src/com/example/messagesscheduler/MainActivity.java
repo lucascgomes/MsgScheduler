@@ -1,8 +1,7 @@
 /*
  * TODO:
- * Ordenar query DESC
- * Fix bug when alarm is set for a previous hour
  * Search for problem with text color and background color
+ * Search for why some functions are being called twice after dialog set
  * Make an test option in app?
  * Fazer msg_number unique in db?
  */
@@ -53,7 +52,7 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 	    	intent.putExtra("RESEND_MESSAGE_NUMBER", messageNumber.intValue());
 	    	sendBroadcast(intent);
 	    	//Make this view disappear?
-	    	//Do these happen automatically?
+	    	//Do this happen automatically?
 	    }
 	};
 	
@@ -140,7 +139,8 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 	
 	private void setAlarm(int hourOfDay, int minute){
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
+		//calendar.setTimeInMillis(System.currentTimeMillis());
+		calendar.add(Calendar.DAY_OF_YEAR, 1); //This line avoids the alarm to trigger for a hour in the past
 		calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
 		calendar.set(Calendar.MINUTE, minute);
 		

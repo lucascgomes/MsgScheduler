@@ -1,9 +1,8 @@
 /*
  * TODO:
- * Make user interface to see the messages
  * Fix bug when alarm is set for a previous hour
- * Make a method to resend the messages
  * Make an test option in app?
+ * Search for problem with text color and background color
  */
 
 package com.example.messagesscheduler;
@@ -22,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,25 +38,44 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 		setContentView(R.layout.activity_main);
 		
 		initClock();
-		drawMessages();
+		drawMessages(1);
+		drawMessages(0);
 	}
 	
-	private void drawMessages(){
+	OnClickListener resendMessage = new OnClickListener() {
+	    @Override
+	    public void onClick(View view) {
+	    	Toast.makeText(getApplicationContext(), "Sending...", Toast.LENGTH_LONG).show();
+	    	Intent intent = new Intent(view.getContext(), AlarmReceiver.class);
+	    	sendBroadcast(intent);
+	    	//pass argument through the intent?
+	    	//Make this view disappear?
+	    	//Do these happen automatically?
+	    }
+	};
+	
+	private void drawMessages(int was_sent){
 		// gets all sent messages from db
 		MessageRecordDbHelper db = new MessageRecordDbHelper(this);
-		List<MessageRecord> messagesSent = db.getAllMessagesSentWith(1);
-		 
-		LinearLayout messageLinearLayout = (LinearLayout) findViewById(R.id.mylinearLayout);
+		List<MessageRecord> messages = db.getAllMessagesSentWith(was_sent);
+		
+		LinearLayout messageLinearLayout;
 		TextView msgTextView; 
 		TextView dateTextView;
 		FrameLayout msgFrame;
 		
+		if (was_sent==1){
+			messageLinearLayout = (LinearLayout) findViewById(R.id.mylinearLayout);
+		}
+		else{
+			messageLinearLayout = (LinearLayout) findViewById(R.id.messageNotSentLayout);
+		}
+		
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 			     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
 		layoutParams.setMargins(0, 10, 0, 0);
 		
-		for (MessageRecord message: messagesSent){
+		for (MessageRecord message: messages){
 			msgFrame = new FrameLayout(this);
 			msgTextView = new TextView(this);
 			dateTextView = new TextView(this);
@@ -64,14 +83,23 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 			msgTextView.setText("#" + message.getMessage_number() + ":" + " " + message.getMessage() + "\n");
 			msgTextView.setTextAppearance(this, android.R.style.TextAppearance_Large);
 			
-			dateTextView.setText(message.getDatetime());
-			dateTextView.setTextAppearance(this, android.R.style.TextAppearance_Small);
-			dateTextView.setGravity(Gravity.BOTTOM | Gravity.END);
+			if(was_sent==1){
+				dateTextView.setText(message.getDatetime());
+				dateTextView.setTextAppearance(this, android.R.style.TextAppearance_Small);
+				dateTextView.setGravity(Gravity.BOTTOM | Gravity.END);
+				msgFrame.setBackgroundColor(Color.argb(100,255, 255, 255)); //white backgroud color
+			}
+			else{
+				dateTextView.setText("Not sent");
+				dateTextView.setTextAppearance(this, android.R.style.TextAppearance_Small);
+				dateTextView.setGravity(Gravity.BOTTOM | Gravity.END);
+				msgFrame.setBackgroundColor(Color.argb(100,255, 128, 0)); //orange backgroud color
+				msgFrame.setOnClickListener(resendMessage);
+			}
 			
+			msgFrame.setPadding(4, 4, 4, 4);
 			msgFrame.addView(msgTextView);
 			msgFrame.addView(dateTextView);
-			msgFrame.setBackgroundColor(Color.argb(100,255, 255, 255)); //white backgroud color
-			msgFrame.setPadding(4, 4, 4, 4);
 			messageLinearLayout.addView(msgFrame,layoutParams);
 		}
 	}

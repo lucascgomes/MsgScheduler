@@ -14,7 +14,7 @@ import com.example.messagesscheduler.MessageRecord.MessageEntry;
 
 public class MessageRecordDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "MessageRecord.db";
     
     //********** SQL QUERIES *************
@@ -71,6 +71,41 @@ public class MessageRecordDbHelper extends SQLiteOpenHelper {
 		
 		// 4. close
         db.close(); 
+    }
+    
+    //*************** GET MESSAGE *****************
+    public MessageRecord getMessage(int messageNumber){
+    	 
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+     
+        // 2. build query
+        Cursor cursor = 
+                db.query(MessageEntry.TABLE_NAME, // a. table
+                null, // b. column names
+                MessageEntry.COLUMN_NAME_MESSAGE_NUMBER + " = ?", // c. selections 
+                new String[] { String.valueOf(messageNumber) }, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+     
+        // 3. if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+     
+        // 4. build book object
+        MessageRecord messageRecord = new MessageRecord();
+    	messageRecord.setMessage(cursor.getString(1));
+    	messageRecord.setMessage_number(cursor.getInt(2));
+    	messageRecord.setDatetime(cursor.getString(3));
+    	messageRecord.set_sent(cursor.getInt(4)==1 ? true:false);
+     
+        //log 
+        Log.d("getBook("+messageNumber+")", messageRecord.toString());
+     
+        // 5. return book
+        return messageRecord;
     }
     
     //*************** GET ALL MESSAGES SENT *****************

@@ -1,8 +1,10 @@
 /*
  * TODO:
+ * Ordenar query DESC
  * Fix bug when alarm is set for a previous hour
- * Make an test option in app?
  * Search for problem with text color and background color
+ * Make an test option in app?
+ * Fazer msg_number unique in db?
  */
 
 package com.example.messagesscheduler;
@@ -47,8 +49,9 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 	    public void onClick(View view) {
 	    	Toast.makeText(getApplicationContext(), "Sending...", Toast.LENGTH_LONG).show();
 	    	Intent intent = new Intent(view.getContext(), AlarmReceiver.class);
+	    	Integer messageNumber = (Integer)view.getTag();
+	    	intent.putExtra("RESEND_MESSAGE_NUMBER", messageNumber.intValue());
 	    	sendBroadcast(intent);
-	    	//pass argument through the intent?
 	    	//Make this view disappear?
 	    	//Do these happen automatically?
 	    }
@@ -81,7 +84,7 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 			dateTextView = new TextView(this);
 			
 			msgTextView.setText("#" + message.getMessage_number() + ":" + " " + message.getMessage() + "\n");
-			msgTextView.setTextAppearance(this, android.R.style.TextAppearance_Large);
+			msgTextView.setTextAppearance(this, android.R.style.TextAppearance_Medium);
 			
 			if(was_sent==1){
 				dateTextView.setText(message.getDatetime());
@@ -94,6 +97,7 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 				dateTextView.setTextAppearance(this, android.R.style.TextAppearance_Small);
 				dateTextView.setGravity(Gravity.BOTTOM | Gravity.END);
 				msgFrame.setBackgroundColor(Color.argb(100,255, 128, 0)); //orange backgroud color
+				msgFrame.setTag(Integer.valueOf(message.getMessage_number()));
 				msgFrame.setOnClickListener(resendMessage);
 			}
 			

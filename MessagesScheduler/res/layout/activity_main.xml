@@ -32,31 +32,29 @@
         android:textSize="@dimen/clock_dimension" />
 
     <ScrollView
-        android:id="@+id/messageNotSentScroll"
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" >
+        android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:id="@+id/messageNotSentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-        </LinearLayout>
-    </ScrollView>
+            <LinearLayout
+                android:id="@+id/messageNotSentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+            </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" >
+            <LinearLayout
+                android:id="@+id/mylinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/mylinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
 

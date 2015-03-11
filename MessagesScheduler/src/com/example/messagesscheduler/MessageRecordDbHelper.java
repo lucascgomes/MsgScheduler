@@ -113,7 +113,9 @@ public class MessageRecordDbHelper extends SQLiteOpenHelper {
     	List<MessageRecord> messageRecords = new LinkedList<MessageRecord>();
     	
     	// 1. build the query
-        String query = "SELECT  * FROM " + MessageEntry.TABLE_NAME + " WHERE " + MessageEntry.COLUMN_NAME_WAS_SENT + "=" + sent;
+        String query = 	"SELECT  * FROM " + MessageEntry.TABLE_NAME + 
+        				" WHERE " + MessageEntry.COLUMN_NAME_WAS_SENT + "=" + sent +
+        				" ORDER BY " + MessageEntry.COLUMN_NAME_MESSAGE_NUMBER + " DESC";
         
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();

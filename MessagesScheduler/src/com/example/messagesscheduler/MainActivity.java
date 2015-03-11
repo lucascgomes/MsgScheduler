@@ -1,7 +1,8 @@
 /*
  * TODO:
+ * 
+ * Make a better notification icon
  * Search for problem with text color and background color
- * Search for why some functions are being called twice after dialog set
  * Make an test option in app?
  * Fazer msg_number unique in db?
  */

@@ -22,7 +22,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 	
 	static TimePickerFragment newInstance(int hour, int minute) {
 		TimePickerFragment timePicker = new TimePickerFragment();
-
         // Supply num input as an argument.
         Bundle args = new Bundle();
         args.putInt("hour", hour);
@@ -34,17 +33,18 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		
 		int hour = getArguments().getInt("hour");
 		int minute = getArguments().getInt("minute");
-
+		
 		// Create a new instance of TimePickerDialog and return it
 		return new TimePickerDialog(getActivity(), this, hour, minute, true);
 		//DateFormat.is24HourFormat(getActivity())
 	}
 
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		if (myListener != null) 
-			myListener.setTime(hourOfDay, minute);
+		if (view.isShown()) {
+			if (myListener != null) 
+				myListener.setTime(hourOfDay, minute);
+		}
 	}
 }

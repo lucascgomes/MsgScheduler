@@ -1,6 +1,8 @@
 /*
  * TODO:
  * 
+ * -> Re start alarm after turning on phone
+ * -> Erase notification after clicking in it
  * Make a better notification icon
  * Search for problem with text color and background color
  * Make an test option in app?
@@ -140,10 +142,13 @@ public class MainActivity extends Activity implements TimePickerFragment.Listene
 	
 	private void setAlarm(int hourOfDay, int minute){
 		Calendar calendar = Calendar.getInstance();
-		//calendar.setTimeInMillis(System.currentTimeMillis());
-		calendar.add(Calendar.DAY_OF_YEAR, 1); //This line avoids the alarm to trigger for a hour in the past
+		calendar.setTimeInMillis(System.currentTimeMillis());
 		calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
 		calendar.set(Calendar.MINUTE, minute);
+		
+		if (System.currentTimeMillis() > calendar.getTimeInMillis()){
+			calendar.add(Calendar.DAY_OF_YEAR, 1); //This line avoids the alarm to trigger for a hour in the past
+		}
 		
 		alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Intent intent = new Intent(this, AlarmReceiver.class);

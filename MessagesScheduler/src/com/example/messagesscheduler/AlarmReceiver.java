@@ -58,7 +58,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 		/* READ LINE FROM TEXT FILE */
 		SharedPreferences file_prefs = context.getSharedPreferences("FILE_PREFS", Context.MODE_PRIVATE);
-		line_number = file_prefs.getInt("file_line", 0); //get line number to read
+		line_number = file_prefs.getInt("file_line", 149); //get line number to read
 
 		message = getMessageFromFile(context, line_number);
 

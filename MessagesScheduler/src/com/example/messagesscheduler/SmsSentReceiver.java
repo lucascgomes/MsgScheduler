@@ -35,7 +35,8 @@ public class SmsSentReceiver extends BroadcastReceiver {
 		        .setSmallIcon(R.drawable.ic_love_letter)
 		        .setContentTitle(contentTitle)
 		        .setContentText(contentText)
-		        .setDefaults(Notification.DEFAULT_ALL);
+		        .setDefaults(Notification.DEFAULT_ALL)
+		        .setAutoCancel(true);
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(context, MainActivity.class);
 

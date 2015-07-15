@@ -1,7 +1,5 @@
 /*
- * TODO:
- * 
- * -> Re start alarm after turning on phone
+ * TODO: 
  * Make an test option in app?
  * Fazer msg_number unique in db?
  */
